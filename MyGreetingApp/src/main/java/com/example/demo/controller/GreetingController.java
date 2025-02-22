@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Message;
 import com.example.demo.service.GreetingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,12 +30,14 @@ public class GreetingController {
         return new Message("Resource deleted with DELETE request!");
     }
 
+    @Autowired
     public GreetingController(GreetingService greetingService) {
         this.greetingService = greetingService;
     }
 
-    @GetMapping("/service")
-    public Message getGreetingService() {
-        return new Message(greetingService.getGreetingMessage());
+    @GetMapping("/personalized")
+    public Message getGreetingService(@RequestParam(required = false) String firstName,
+                                      @RequestParam(required = false) String lastName) {
+        return new Message(greetingService.getGreetingMessage(firstName, lastName));
     }
 }
