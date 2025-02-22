@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Message;
+import com.example.demo.service.GreetingService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/greeting")
 public class GreetingController {
+    private final GreetingService greetingService;
 
     @GetMapping
     public Message getGreeting() {
@@ -25,5 +27,14 @@ public class GreetingController {
     @DeleteMapping
     public Message deleteGreeting() {
         return new Message("Resource deleted with DELETE request!");
+    }
+
+    public GreetingController(GreetingService greetingService) {
+        this.greetingService = greetingService;
+    }
+
+    @GetMapping("/service")
+    public Message getGreetingService() {
+        return new Message(greetingService.getGreetingMessage());
     }
 }
