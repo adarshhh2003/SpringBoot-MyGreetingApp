@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Greeting;
 import com.example.demo.model.Message;
 import com.example.demo.service.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,15 @@ public class GreetingController {
     public Message getGreetingService(@RequestParam(required = false) String firstName,
                                       @RequestParam(required = false) String lastName) {
         return new Message(greetingService.getGreetingMessage(firstName, lastName));
+    }
+
+    @PostMapping("/save")
+    public Greeting saveGreeting(@RequestBody Greeting greeting) {
+        return greetingService.saveGreeting(greeting.getMessage());
+    }
+
+    @GetMapping("/{id}")
+    public Greeting getGreeting(@PathVariable Long id) {
+        return greetingService.getGreetingById(id);
     }
 }
